@@ -55,18 +55,24 @@ const initializeScroll = function initializeScroll() {
     // Extend elements objects in $aosElements with their positions
     $aosElements = prepare($aosElements, options)
     // Perform scroll event, to refresh view and show/hide elements
-    handleScroll($aosElements)
+    //handleScroll($aosElements)
 
     /**
      * Handle scroll event to animate elements on scroll
      */
-    window.addEventListener(
-        "scroll",
-        throttle(() => {
-            handleScroll($aosElements, options.once)
-        }, options.throttleDelay),
-        options.scrollEventOptions,
-    )
+    for (const element of $aosElements) {
+        const intersectionObserver = new IntersectionObserver(entries => {
+            handleScroll({element, isIntersecting: entries[0].isIntersecting})
+        })
+        intersectionObserver.observe(element.node)
+    }
+    //window.addEventListener(
+    //    "scroll",
+    //    throttle(() => {
+    //        handleScroll($aosElements, options.once)
+    //    }, options.throttleDelay),
+    //    options.scrollEventOptions,
+    //)
 
     return $aosElements
 }

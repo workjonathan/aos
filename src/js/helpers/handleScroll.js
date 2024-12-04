@@ -36,7 +36,7 @@ const fireEvent = (eventName, data) => {
  * @param {node} el         element
  * @param {int}  top        scrolled distance
  */
-const applyClasses = (el, top) => {
+const applyClasses = (el, isIntersecting) => {
     const {options, position, node, data} = el
 
     const hide = () => {
@@ -65,9 +65,9 @@ const applyClasses = (el, top) => {
         el.animated = true
     }
 
-    if (options.mirror && top >= position.out && !options.once) {
+    if (options.mirror && isIntersecting && !options.once) {
         hide()
-    } else if (top >= position.in) {
+    } else if (isIntersecting) {
         show()
     } else if (el.animated && !options.once) {
         hide()
@@ -80,11 +80,9 @@ const applyClasses = (el, top) => {
  * @param  {array} $elements         array of elements nodes
  * @return {void}
  */
-const handleScroll = ($elements) => {
-    if (window.pageYOffset === 0) {
-        console.warn('exhibit scrolling may be broken by layout. consider adding exhibit-mode="light" to <fortepan-viewer> tag attributes if this message keeps appearing on scroll.')
-    }
-    $elements.forEach((el, i) => applyClasses(el, window.pageYOffset))
+const handleScroll = ({element, isIntersecting}) => {
+    console.log({element, isIntersecting})
+    applyClasses(element, isIntersecting)
 }
 
 export default handleScroll
