@@ -81,7 +81,6 @@ const applyClasses = (el, isIntersecting) => {
  * @return {void}
  */
 const handleScroll = ({element, isIntersecting}) => {
-    console.log({element, isIntersecting})
     applyClasses(element, isIntersecting)
 }
 
